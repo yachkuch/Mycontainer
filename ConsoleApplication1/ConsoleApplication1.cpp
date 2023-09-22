@@ -1,13 +1,14 @@
 ﻿#include <iostream>
 
+template<typename MyClass >
 class Ar {
 public:
-    Ar() { size = 0, start = new char; };
-    Ar(std::initializer_list<char> init) { 
+    Ar() { size = 0, start = new MyClass; };
+    Ar(std::initializer_list<MyClass> init) {
         this->size = init.size();
-        start = new char[size];
+        start = new MyClass[this->size * sizeof(MyClass)];
         int counter = 0;
-        for (const char a : init) {
+        for (const MyClass a : init) {
             *start = a;
             start++;
         }
@@ -16,7 +17,7 @@ public:
 
     Ar(int size) {
         this->size = size;
-        start = new char[size];
+        start = new MyClass[this->size * sizeof(MyClass)];
     };
 
     Ar(Ar&& data) noexcept {
@@ -28,14 +29,14 @@ public:
 
     Ar(Ar& data) {
         this->size = data.size;
-        start = new char[this->size];
-        memcpy(start,data.start,data.size);
+        start = new MyClass[this->size * sizeof(MyClass)];
+        memcpy(start,data.start, data.size * sizeof(MyClass));
     }
 
     Ar& operator = (const Ar& data) {
         this->size = data.size;
-        start = new char[this->size];
-        memcpy(start, data.start, data.size);
+        start = new MyClass[this->size * sizeof(MyClass)];
+        memcpy(start, data.start, data.size *sizeof(MyClass));
         return *this;
     }
 
@@ -53,16 +54,16 @@ public:
         delete []start;
     }
 
-    void push_back(char val) {
+    void push_back(MyClass val) {
         this->size += 1;
-        char* buff = new char[this->size];
-        memcpy(buff, this->start, size - 1);
+        MyClass* buff = new MyClass[this->size *sizeof(MyClass)];
+        memcpy(buff, this->start, size * sizeof(MyClass));
         delete[]  this->start;
         this->start = buff;
         start[size - 1] = val;
     }
 
-    char at(int number) {
+    MyClass at(int number) {
         if (number > size) {
             return '\n';
         }
@@ -73,7 +74,7 @@ public:
 
 private:
     int size = 0;
-    char* start = nullptr;
+    MyClass* start = nullptr;
 
     void Free() {
         this->size = 0;
@@ -86,22 +87,30 @@ using std::cout;
 using std::move;
 using std::endl;
 
-void operation_with_array(std::unique_ptr<Ar> data) {
-    cout << data->at(2)<<endl;
-}
-void operation_with_array_pointer(std::unique_ptr<Ar>& data) {
-    cout << data->at(2) << endl;
-}
+//void operation_with_array(std::unique_ptr<Ar> data) {
+//    cout << data->at(2)<<endl;
+//}
+//void operation_with_array_pointer(std::unique_ptr<Ar>& data) {
+//    cout << data->at(2) << endl;
+//}
 
 int main()
 {
-    std::unique_ptr<Ar> pointer(new Ar);
-    std::shared_ptr<Ar> pointer2(new Ar);
-    std::shared_ptr<Ar> pointer3(pointer2);
-    (*pointer).push_back('a');
-    (*pointer).push_back('c');
-    (*pointer).push_back('d');
-    operation_with_array_pointer((pointer));
-    cout << (*pointer).at(2)<<endl;
+    //std::unique_ptr<Ar<int>> pointer(new Ar<int>);
+    auto a = new Ar<int>;
+    //std::shared_ptr<Ar> pointer2(new Ar);
+    //std::shared_ptr<Ar> pointer3(pointer2);
+    //(*pointer).push_back(2);
+    //(*pointer).push_back(2);
+    //(*pointer).push_back(3);
+    //operation_with_array_pointer((pointer));
+    a->push_back(1);
+    a->push_back(2);
+    a->push_back(3);
+    cout << a->at(1);
+
+    
+
     return 0;    
 }
+
