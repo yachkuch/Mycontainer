@@ -6,7 +6,7 @@ public:
     Ar() { size = 0, start = new MyClass; };
     Ar(std::initializer_list<MyClass> init) {
         this->size = init.size();
-        capacity = size;
+        capacity = 2*size;
         start = alloc.allocate(capacity);
         int counter = 0;
         for (const MyClass a : init) {
@@ -18,8 +18,8 @@ public:
 
     Ar(int size) {
         this->size = size;
-        capacity = size;
-        start = new MyClass[this->size * sizeof(MyClass)];
+        capacity = 2*size;
+        start = alloc.allocate(capacity);
     };
 
     Ar(Ar&& data) noexcept {
@@ -33,13 +33,13 @@ public:
     Ar(Ar& data) {
         this->size = data.size;
         this->capacity = data.capacity;
-        start = new MyClass[this->size * sizeof(MyClass)];
+        start = alloc.allocate(capacity);
         memcpy(start,data.start, data.size * sizeof(MyClass));
     }
 
     Ar& operator = (const Ar& data) {
         this->size = data.size;
-        start = new MyClass[this->size * sizeof(MyClass)];
+        start = alloc.allocate(capacity);
         memcpy(start, data.start, data.size *sizeof(MyClass));
         return *this;
     }
