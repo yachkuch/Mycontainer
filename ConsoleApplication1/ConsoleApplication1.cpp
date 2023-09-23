@@ -1,78 +1,120 @@
 ﻿#include <iostream>
 
+template<typename ValueType>
+class OwnIterator : public std::iterator<std::input_iterator_tag, ValueType> {
+
+private:
+    ValueType* val;
+
+public:
+    OwnIterator(ValueType* first) :val(first) {};
+
+    ValueType* operator ++(int size) { return val++; };
+    ValueType* operator --(int size) { return val--; };
+    ValueType* operator -(int size) { return val -size; };
+    ValueType* operator +(int size) { return val+size; };
+    bool operator ==(const OwnIterator& data) { return val == data.val; };
+    bool operator !=(const OwnIterator& data) { return val != data.val; };
+
+    ValueType& operator *() { return  *val; };
+
+};
+
+
 template<typename MyClass , typename MyAllocator= std::allocator<MyClass>>
 class Ar {
 public:
-    Ar() { size = 0, start = new MyClass; };
+
+    typedef OwnIterator<MyClass> iterator;
+    typedef OwnIterator<const MyClass> const_iterator;
+
+    iterator begin() {
+        return start;
+    };
+
+    iterator end() {
+        return start + Size;
+    };
+
+    const_iterator cbegin() const {
+        return start;
+    };
+
+    const_iterator cend() const {
+        return start + Size;
+    };
+
+
+    Ar() { Size = 0, start = new MyClass; };
     Ar(std::initializer_list<MyClass> init) {
-        this->size = init.size();
-        capacity = 2*size;
+        this->Size = init.size();
+        capacity = 2*Size;
         start = alloc.allocate(capacity);
         int counter = 0;
         for (const MyClass a : init) {
             *start = a;
             start++;
         }
-        start = start - size;
+        start = start - Size;
     };
 
     Ar(int size) {
-        this->size = size;
+        this->Size = size;
         capacity = 2*size;
         start = alloc.allocate(capacity);
     };
 
     Ar(Ar&& data) noexcept {
         this->start = data.start;
-        this->size = data.size;
+        this->Size = data.Size;
         this->capacity = data.capacity;
-        data.size = 0;
+        data.Size = 0;
         data.start = nullptr;
     }
 
     Ar(Ar& data) {
-        this->size = data.size;
+        this->Size = data.Size;
         this->capacity = data.capacity;
         start = alloc.allocate(capacity);
-        memcpy(start,data.start, data.size * sizeof(MyClass));
+        memcpy(start,data.start, data.Size * sizeof(MyClass));
     }
 
     Ar& operator = (const Ar& data) {
-        this->size = data.size;
+        this->Size = data.Size;
         start = alloc.allocate(capacity);
-        memcpy(start, data.start, data.size *sizeof(MyClass));
+        memcpy(start, data.start, data.Size *sizeof(MyClass));
         return *this;
     }
 
     Ar& operator = ( Ar&& data) noexcept {
         Free();
-        size = data.size;
+        Size = data.Size;
         start = data.start;
-        data.size = 0;
+        data.Size = 0;
         data.start = nullptr;
         return *this;
     }
 
     ~Ar() {
-        size = 0;
+        Size = 0;
         delete []start;
     }
 
     void push_back(const MyClass &val) {
         
-        if (size == capacity) {
+        if (Size == capacity) {
             recalculate_capacity(capacity);
             MyClass* buff = alloc.allocate(capacity);
-            memcpy(buff,start, size*sizeof(MyClass));
+            memcpy(buff,start, Size*sizeof(MyClass));
             std::swap(start, buff);
             alloc.deallocate(buff);
         }
-        alloc.construct(start+size, val);
-        this->size += 1;
+        alloc.construct(start+Size, val);
+        this->Size += 1;
     }
 
     MyClass at(int number) {
-        if (number > size) {
+        if (number > Size) {
             return '\n';
         }
         else {
@@ -81,17 +123,21 @@ public:
     }
 
     bool isEmpty() {
-        return size > 0 ? true:false;
+        return Size > 0 ? true:false;
     }
 
+   /* int size() {
+        return this->size();
+    }*/
+
 private:
-    int size = 0; // число элементов
+    int Size = 0; // число элементов
     MyClass* start = nullptr;
     int capacity = 0; // число элементов которые контейнер потенциально заложил
     MyAllocator alloc;
 
     void Free() {
-        this->size = 0;
+        this->Size = 0;
         delete[] this->start;
     }
 
@@ -131,6 +177,7 @@ struct CustomAl {
 
 };
 
+
 using std::cout;
 using std::move;
 using std::endl;
@@ -142,6 +189,12 @@ int main()
     a.push_back(10);
     a.push_back(11);
     a.push_back(12);
+    auto it = a.begin();
+    while (it != a.end())
+    {
+        cout << *it << endl;
+        it++;
+    }
     cout << a.at(0);
     return 0;    
 }
