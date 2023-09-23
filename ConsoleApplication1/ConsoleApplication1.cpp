@@ -72,6 +72,10 @@ public:
         }
     }
 
+    bool isEmpty() {
+        return size > 0 ? true:false;
+    }
+
 private:
     int size = 0;
     MyClass* start = nullptr;
@@ -87,28 +91,11 @@ using std::cout;
 using std::move;
 using std::endl;
 
-//void operation_with_array(std::unique_ptr<Ar> data) {
-//    cout << data->at(2)<<endl;
-//}
-//void operation_with_array_pointer(std::unique_ptr<Ar>& data) {
-//    cout << data->at(2) << endl;
-//}
 
 int main()
 {
-    //std::unique_ptr<Ar<int>> pointer(new Ar<int>);
-    auto a = new Ar<int>;
-    //std::shared_ptr<Ar> pointer2(new Ar);
-    //std::shared_ptr<Ar> pointer3(pointer2);
-    //(*pointer).push_back(2);
-    //(*pointer).push_back(2);
-    //(*pointer).push_back(3);
-    //operation_with_array_pointer((pointer));
-    a->push_back(1);
-    a->push_back(2);
-    a->push_back(3);
-    cout << a->at(1);
-
+    Ar<int> a = {0,1,2,3,4,5,6,7,8,9};
+    
     
 
     return 0;    
