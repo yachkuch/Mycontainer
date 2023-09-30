@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <map>
 
 template<typename ValueType>
 class OwnIterator : public std::iterator<std::input_iterator_tag, ValueType> {
@@ -45,7 +46,7 @@ public:
     };
 
 
-    Ar() { Size = 0, start = new MyClass; };
+    Ar() {  };
     Ar(std::initializer_list<MyClass> init) {
         this->Size = init.size();
         capacity = 2*Size;
@@ -72,7 +73,7 @@ public:
         data.start = nullptr;
     }
 
-    Ar(Ar& data) {
+    Ar(const Ar& data) {
         this->Size = data.Size;
         this->capacity = data.capacity;
         start = alloc.allocate(capacity);
@@ -97,7 +98,7 @@ public:
 
     ~Ar() {
         Size = 0;
-        delete []start;
+        alloc.deallocate(start);
     }
 
     void push_back(const MyClass &val) {
@@ -105,9 +106,11 @@ public:
         if (Size == capacity) {
             recalculate_capacity(capacity);
             MyClass* buff = alloc.allocate(capacity);
-            memcpy(buff,start, Size*sizeof(MyClass));
-            std::swap(start, buff);
-            alloc.deallocate(buff);
+            if (buff != start) {
+                memcpy(buff, start, Size * sizeof(MyClass));
+                std::swap(start, buff);
+                alloc.deallocate(buff);
+            }
         }
         alloc.construct(start+Size, val);
         this->Size += 1;
@@ -115,7 +118,7 @@ public:
 
     MyClass at(int number) {
         if (number > Size) {
-            return '\n';
+            return MyClass();
         }
         else {
             return  start[number];
@@ -123,12 +126,12 @@ public:
     }
 
     bool isEmpty() {
-        return Size > 0 ? true:false;
+        return Size > 0 ;
     }
 
-   /* int size() {
+    int size() {
         return this->size();
-    }*/
+    }
 
 private:
     int Size = 0; // число элементов
@@ -138,11 +141,11 @@ private:
 
     void Free() {
         this->Size = 0;
-        delete[] this->start;
+        alloc.deallocate(this->start);
     }
 
     void recalculate_capacity(int& val) {
-        val = val + 10;
+        val = val + 1;
     }
 
 };
@@ -160,9 +163,18 @@ struct CustomAl {
     template<class U>CustomAl(const CustomAl<U>&& data) { this = data; data = nullptr; }
 
     Myal* allocate(int size) {
-        return static_cast<Myal*>(operator new(size * sizeof(Myal)));
+        if (size > capasity) {
+            capasity = 2 * size;
+            buff = static_cast<Myal*>(operator new(capasity * sizeof(Myal)));
+            std::cout << "Make new memory"<<std::endl<<"capas" << capasity<<std::endl;
+            return buff;
+        }
+        else {
+            std::cout << "Give save memory" << std::endl;
+            return buff;
+        }
     }
-    void deallocate(Myal* poin) {  // деалокатор определил по своему
+    void deallocate(Myal* poin, std::size_t size =NULL) {  
         ::operator delete(poin);
     }
 
@@ -175,6 +187,14 @@ struct CustomAl {
         p->~T();
     }
 
+    int get_capasity() const{
+        return capasity;
+    }
+
+private:
+   int capasity = 0;
+   Myal* buff = nullptr;
+
 };
 
 
@@ -182,12 +202,50 @@ using std::cout;
 using std::move;
 using std::endl;
 
+class MycontainClass {
+public: 
+    int a;
+};
+
 
 int main()
 {
-    Ar<int, CustomAl<int>> a = {0,1,2,3,4,5,6,7,8,9};
+    Ar<int, CustomAl<int>> a = {0,1};
+    a.push_back(10);
+    a.push_back(10);
+    a.push_back(10);
+    a.push_back(10);
     a.push_back(10);
     a.push_back(11);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
+    a.push_back(12);
     a.push_back(12);
     auto it = a.begin();
     while (it != a.end())
@@ -195,7 +253,8 @@ int main()
         cout << *it << endl;
         it++;
     }
-    cout << a.at(0);
+    cout << a.at(0)<<endl;
+
     return 0;    
 }
 

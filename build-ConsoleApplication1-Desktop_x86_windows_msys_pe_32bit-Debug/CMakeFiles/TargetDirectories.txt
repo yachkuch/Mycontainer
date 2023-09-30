@@ -1,0 +1,3 @@
+C:/Users/user/source/repos/ConsoleApplication1/build-ConsoleApplication1-Desktop_x86_windows_msys_pe_32bit-Debug/CMakeFiles/untitled6.dir
+C:/Users/user/source/repos/ConsoleApplication1/build-ConsoleApplication1-Desktop_x86_windows_msys_pe_32bit-Debug/CMakeFiles/edit_cache.dir
+C:/Users/user/source/repos/ConsoleApplication1/build-ConsoleApplication1-Desktop_x86_windows_msys_pe_32bit-Debug/CMakeFiles/rebuild_cache.dir

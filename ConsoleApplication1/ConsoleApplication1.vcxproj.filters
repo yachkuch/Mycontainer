@@ -19,4 +19,11 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+    <Text Include="bui\CMakeCache.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bui\cmake_install.cmake" />
+  </ItemGroup>
 </Project>

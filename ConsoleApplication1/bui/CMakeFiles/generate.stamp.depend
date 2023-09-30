@@ -1,0 +1,21 @@
+# CMake generation dependency list for this directory.
+C:/Users/user/source/repos/ConsoleApplication1/ConsoleApplication1/CMakeLists.txt
+C:/Users/user/source/repos/ConsoleApplication1/ConsoleApplication1/bui/CMakeFiles/3.27.4/CMakeCXXCompiler.cmake
+C:/Users/user/source/repos/ConsoleApplication1/ConsoleApplication1/bui/CMakeFiles/3.27.4/CMakeRCCompiler.cmake
+C:/Users/user/source/repos/ConsoleApplication1/ConsoleApplication1/bui/CMakeFiles/3.27.4/CMakeSystem.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/CMakeCXXInformation.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/CMakeGenericSystem.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/CMakeRCInformation.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/Compiler/MSVC-CXX.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/Compiler/MSVC.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/Platform/Windows-Initialize.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/Platform/Windows-MSVC-CXX.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/Platform/Windows-MSVC.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/Platform/Windows.cmake
+D:/Program Files/CMake/share/cmake-3.27/Modules/Platform/WindowsPaths.cmake
