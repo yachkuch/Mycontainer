@@ -255,6 +255,14 @@ int main()
     }
     cout << a.at(0)<<endl;
 
+    // auto addd = std::map<int, int, CustomAl<std::pair<int, int>>>();
+    //addd.insert(std::make_pair(2, 3));
+    //addd.insert(std::make_pair(3, 3));
+    //addd.insert(std::make_pair(4, 4));
+    //addd.insert(std::make_pair(5, 5));
+    //addd.insert(std::make_pair(6, 6));
+    //cout << "map" << endl;
+    //cout << addd.at(3);
     return 0;    
 }
 
